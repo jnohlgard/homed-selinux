@@ -1,3 +1,5 @@
 tmp/
 *.pp
 *.pp.*
+.build/
+*.rpm

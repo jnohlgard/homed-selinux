@@ -15,7 +15,7 @@ all: ${TARGET:=.pp.bz2}
 
 clean:
 	rm -f *~  *.tc *.pp *.pp.bz2
-	rm -rf tmp *.tar.gz
+	rm -rf tmp .build *.tar.gz
 
 install-policy: all
 	semodule -i ${TARGET}.pp.bz2
@@ -23,3 +23,15 @@ install-policy: all
 install: all
 	install -D -m 644 ${TARGET}.pp.bz2 ${DESTDIR}${SHAREDIR}/selinux/packages/${TARGET}.pp.bz2
 	install -D -m 644 ${TARGET}.if ${DESTDIR}${SHAREDIR}/selinux/devel/include/contrib/${TARGET}.if
+
+SRCDIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+
+rpm:
+	rpmbuild \
+		--define "_sourcedir $(SRCDIR)" \
+		--define "_specdir $(SRCDIR)" \
+		--define "_builddir $(SRCDIR)" \
+		--define "_srcrpmdir $(SRCDIR)" \
+		--define "_rpmdir $(SRCDIR)" \
+		--define "_buildrootdir $(SRCDIR)/.build" \
+		-ba ${TARGET}-selinux.spec
