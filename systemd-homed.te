@@ -1,4 +1,4 @@
-policy_module(homed, 0.2.0)
+policy_module(systemd-homed, 0.3.0)
 ########################################
 #
 # Declarations
