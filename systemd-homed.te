@@ -127,6 +127,7 @@ fs_getattr_cgroup(systemd_homed_t)
 fs_getattr_xattr_fs(systemd_homed_t)
 fs_search_cgroup_dirs(systemd_homed_t)
 fs_write_cgroup_files(systemd_homed_t)
+fs_get_xattr_fs_quotas(systemd_homed_t)
 
 logging_send_syslog_msg(systemd_homed_t)
 
