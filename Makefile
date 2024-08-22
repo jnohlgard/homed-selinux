@@ -11,11 +11,11 @@ all: ${TARGET:=.pp.bz2}
 	bzip2 -f -9 $^
 
 %.pp: %.te
-	make -f ${SHAREDIR}/selinux/devel/Makefile $@
+	$(MAKE) -f ${SHAREDIR}/selinux/devel/Makefile $@
 
 clean:
-	rm -f *~  *.tc *.pp *.pp.bz2
-	rm -rf tmp .build *.tar.gz
+	$(RM) *~  *.tc *.pp *.pp.bz2
+	$(RM) -r tmp .build *.tar.gz
 
 install-policy: all
 	semodule -i ${TARGET}.pp.bz2
@@ -24,14 +24,12 @@ install: all
 	install -D -m 644 ${TARGET}.pp.bz2 ${DESTDIR}${SHAREDIR}/selinux/packages/${TARGET}.pp.bz2
 	install -D -m 644 ${TARGET}.if ${DESTDIR}${SHAREDIR}/selinux/devel/include/contrib/${TARGET}.if
 
-SRCDIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
-
 rpm:
 	rpmbuild \
-		--define "_sourcedir $(SRCDIR)" \
-		--define "_specdir $(SRCDIR)" \
-		--define "_builddir $(SRCDIR)" \
-		--define "_srcrpmdir $(SRCDIR)" \
-		--define "_rpmdir $(SRCDIR)" \
-		--define "_buildrootdir $(SRCDIR)/.build" \
+		--define "_sourcedir $(CURDIR)" \
+		--define "_specdir $(CURDIR)" \
+		--define "_builddir $(CURDIR)" \
+		--define "_srcrpmdir $(CURDIR)" \
+		--define "_rpmdir $(CURDIR)" \
+		--define "_buildrootdir $(CURDIR)/.build" \
 		-ba ${TARGET}-selinux.spec
